@@ -1,0 +1,30 @@
+.formWrapper {
+  background-color: azure;
+  display: flex;
+  flex-direction: column;
+  border: black solid;
+}
+.formWrapper > label {
+  margin: 10px;
+}
+.formWrapper > div > label {
+  margin: 10px;
+}
+.formWrapper > div > input {
+  margin: 10px;
+}
+.formWrapper > select {
+  margin: 10px;
+}
+.formWrapper > input {
+  margin: 10px;
+}
+.btnFormWrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px;
+}
+
+.btnFormWrapper > button {
+  margin: 5px;
+}
