@@ -1,3 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 :root {
   --border-radius: 12px;
   --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
@@ -67,4 +70,17 @@ a {
   html {
     color-scheme: dark;
   }
+}
+::-webkit-scrollbar {
+  width: 0.25rem;
+  height: 0.25rem;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--background-start-rgb);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--foreground-rgb);
+  border-radius: var(--border-radius);
 }

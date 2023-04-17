@@ -26,7 +26,7 @@ const NavBar: React.FC<navbarProps> = (childComp): JSX.Element => {
       <div className={styles.navBarWrapper}>
         <ul>
           <li>
-            <Link className={styles.link} href={"/atividades"}>
+            <Link className={styles.link} href={"/who"}>
               Quem Sou Eu
             </Link>
           </li>
@@ -46,7 +46,7 @@ const NavBar: React.FC<navbarProps> = (childComp): JSX.Element => {
             </div>
           </li>
           <li>
-            <Link className={styles.link} href={"/Calendar"}>
+            <Link className={styles.link} href={"/contato"}>
               Contato
             </Link>
           </li>
