@@ -11,7 +11,8 @@ const Who = () => {
       <p className="font-semibold">
         Sou um estudande de Ciencia de Dados e WebDev, e esse é meu portfolio
         <br />
-        este site foi feito com Next.js
+        este site foi feito com Next.js and tailwindcss para mostrar meus
+        projetos e habilidades
       </p>
     </div>
   );
