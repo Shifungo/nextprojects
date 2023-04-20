@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { format, startOfMonth, endOfMonth, eachDayOfInterval } from "date-fns";
 import styles from "@/styles/calendar.module.css";
-import Dayform from "../components/Dayform";
+import Dayform from "./components/Dayform";
 import { useState } from "react";
 
 const Calendar = (): JSX.Element => {
@@ -89,7 +89,7 @@ const Calendar = (): JSX.Element => {
           </div>
         </div>
 
-        <div className={styles.dayForm}>
+        <div className={`${styles.dayForm}`}>
           {dayClickedLayout}
           <Dayform date={dayClicked.toString()} />
         </div>

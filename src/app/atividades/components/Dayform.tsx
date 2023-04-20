@@ -28,6 +28,9 @@ const Dayform: React.FC<DayformProps> = ({ date }) => {
   function plusAtividade() {
     setAddAtividade(true);
   }
+  function closeAtividade() {
+    setAddAtividade(false);
+  }
 
   useEffect(() => {
     document.addEventListener("mousedown", closeOpenAddForm);
@@ -45,7 +48,10 @@ const Dayform: React.FC<DayformProps> = ({ date }) => {
     showDayAtividadeForm = (
       <div ref={formRef} className={styles.backgroundEventListener}>
         <div className={styles.floatingForm}>
-          <DayAtividadesForm date={dateClicked} />
+          <DayAtividadesForm
+            date={dateClicked}
+            closeAtividade={closeAtividade}
+          />
         </div>
       </div>
     );

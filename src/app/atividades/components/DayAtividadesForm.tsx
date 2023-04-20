@@ -3,15 +3,17 @@ import React, { useState, useEffect } from "react";
 import styles from "@/styles/DayAtividades.module.css";
 interface DayAtividadesFormProps {
   date: string;
+  closeAtividade: () => void;
 }
 
 const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
   date,
+  closeAtividade,
 }): JSX.Element => {
   const [selectedOption, setSelectedOption] = useState("");
   const [moneyChange, setMoneyChange] = useState("");
   const [activityData, setActivityData] = useState({
-    type: "",
+    type: "Lazer",
     start_time: "",
     end_time: "",
     moneyChange: "",
@@ -21,6 +23,10 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
 
   function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
     setSelectedOption(event.target.value);
+    setActivityData((prevState) => ({
+      ...prevState,
+      type: event.target.value,
+    }));
   }
 
   function handleChange(
@@ -52,7 +58,7 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
       },
       body: JSON.stringify(activityData),
     };
-    fetch("/api/atividades", requestOptions)
+    fetch("/api/atividadeHandler", requestOptions)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -61,6 +67,7 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
         console.error(error);
       });
   }
+
   return (
     <form className={styles.formWrapper} action="" onSubmit={handleSubmit}>
       <label htmlFor="">Tipo de atividade</label>
@@ -78,12 +85,14 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
       </div>
       <label htmlFor="">{moneyChange}</label>
 
-      <input type="text" name="money_change" onChange={handleChange} />
+      <input type="text" name="moneyChange" onChange={handleChange} />
       <label htmlFor="">descrição</label>
       <textarea name="description" onChange={handleChange}></textarea>
       <div className={styles.btnFormWrapper}>
         <button type="submit">SALVAR</button>
-        <button>DISCARTAR</button>
+        <button type="button" onClick={closeAtividade}>
+          DISCARTAR
+        </button>
       </div>
     </form>
   );
