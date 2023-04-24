@@ -1,6 +1,7 @@
 import styles from "@/styles/Dayform.module.css";
 import { useState, useRef, useEffect } from "react";
 import DayAtividadesForm from "./DayAtividadesForm";
+import Atividades from "./Atividades";
 
 interface DayformProps {
   date: string;
@@ -71,7 +72,7 @@ const Dayform: React.FC<DayformProps> = ({ date }) => {
           <button onClick={subtractAtividade}> - Atividade</button>
         </div>
         <div>
-          <p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+          <Atividades />
         </div>
       </div>
       {showDayAtividadeForm}

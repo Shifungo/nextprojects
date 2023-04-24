@@ -1,5 +1,8 @@
 .calendarWrapper {
+  justify-content: center;
   display: flex;
+  margin: 1.5rem;
+  width: 100%;
 }
 .days {
   padding: 10px 0;

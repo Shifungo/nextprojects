@@ -6,7 +6,7 @@ interface ActivityRequest {
   type: string;
   start_time: string;
   end_time: string;
-  money_change: string;
+  moneyChange: string;
   description: string;
 }
 
@@ -16,7 +16,7 @@ export async function POST(request: Request, { params }: { params: string }) {
     type,
     start_time,
     end_time,
-    money_change,
+    moneyChange,
     description,
   }: ActivityRequest = await request.json();
 
@@ -25,7 +25,7 @@ export async function POST(request: Request, { params }: { params: string }) {
       type,
       start_time,
       end_time,
-      money_change,
+      moneyChange,
       description,
     },
   });
@@ -33,4 +33,15 @@ export async function POST(request: Request, { params }: { params: string }) {
   return NextResponse.json({
     message: `Atividade ${activity.type} adicionada.`,
   });
+}
+
+export async function GET(request: Request, { params }: { params: string }) {
+  try {
+    const atividades = await prisma.activity.findMany();
+    console.log("Atividades:", atividades);
+    return NextResponse.json(atividades);
+  } catch (error) {
+    console.error("Error fetching activities:", error);
+    NextResponse.error();
+  }
 }

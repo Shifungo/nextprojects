@@ -57,9 +57,8 @@ const Calendar = (): JSX.Element => {
   }, [dayClicked]);
 
   return (
-    <div>
-      <div></div>
-      <div className={styles.calendarWrapper}>
+    <div className="flex justify-center w-screen">
+      <div className={`${styles.calendarWrapper}`}>
         <div className={styles.calendar}>
           <h2>{headerText}</h2>
           <ul className={styles.weekdays}>

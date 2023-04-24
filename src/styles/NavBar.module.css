@@ -1,6 +1,6 @@
 .navBarWrapper {
   background-color: #484848;
-  height: 80px;
+  height: 10vh;
   display: flex;
   align-items: center;
   justify-content: flex-end;

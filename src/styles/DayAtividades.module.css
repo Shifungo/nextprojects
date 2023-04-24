@@ -1,8 +1,9 @@
 .formWrapper {
-  background-color: azure;
+  background-color: rgb(42, 228, 228);
   display: flex;
   flex-direction: column;
   border: black solid;
+  color: black;
 }
 .formWrapper > label {
   margin: 10px;
