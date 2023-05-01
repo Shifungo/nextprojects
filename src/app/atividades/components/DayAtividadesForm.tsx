@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "@/styles/DayAtividades.module.css";
+import { set } from "date-fns";
+
 interface DayAtividadesFormProps {
   date: string;
   closeAtividade: () => void;
@@ -16,14 +18,13 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
   const [moneyChange, setMoneyChange] = useState("");
   //guarda os dados do form
   const [activityData, setActivityData] = useState({
+    date: date,
     type: "",
     start_time: "",
     end_time: "",
     moneyChange: "",
     description: "",
   });
-
-  console.log(activityData);
 
   //muda o valor das atividades quando o select muda
   function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -42,7 +43,7 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
   }
 
   let dateClicked = date;
-  console.log(dateClicked);
+
   //muda o campo de dinheiro para ganho ou gasto de acordo com o valor do select
   useEffect(() => {
     let moneyChangeElement;
@@ -68,15 +69,14 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
       },
       body: JSON.stringify(activityData),
     };
-    fetch("/api/atividadeHandler", requestOptions)
+    fetch("/api/atividadeHandler/postAtividades", requestOptions)
       .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
+      .then((data) => {})
       .catch((error) => {
         console.error(error);
       });
   }
+  console.log(activityData);
   return (
     <form className={styles.formWrapper} action="" onSubmit={handleSubmit}>
       <label htmlFor="">Tipo de atividade</label>

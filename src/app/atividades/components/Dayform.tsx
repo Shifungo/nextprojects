@@ -72,7 +72,7 @@ const Dayform: React.FC<DayformProps> = ({ date }) => {
           <button onClick={subtractAtividade}> - Atividade</button>
         </div>
         <div>
-          <Atividades />
+          <Atividades date={dateClicked} />
         </div>
       </div>
       {showDayAtividadeForm}

@@ -7,12 +7,14 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
+
 model Activity {
   id           Int      @id @default(autoincrement())
+  date        String 
   type         String
   start_time   String
   end_time     String

@@ -3,16 +3,17 @@ import { NextResponse } from "next/server";
 const prisma = new PrismaClient();
 
 interface ActivityRequest {
+  date: string;
   type: string;
   start_time: string;
   end_time: string;
   moneyChange: string;
   description: string;
 }
-
 export async function POST(request: Request, { params }: { params: string }) {
   await prisma.$connect();
   const {
+    date,
     type,
     start_time,
     end_time,
@@ -22,6 +23,7 @@ export async function POST(request: Request, { params }: { params: string }) {
 
   const activity: Activity = await prisma.activity.create({
     data: {
+      date,
       type,
       start_time,
       end_time,
@@ -33,15 +35,4 @@ export async function POST(request: Request, { params }: { params: string }) {
   return NextResponse.json({
     message: `Atividade ${activity.type} adicionada.`,
   });
-}
-
-export async function GET(request: Request, { params }: { params: string }) {
-  try {
-    const atividades = await prisma.activity.findMany();
-    console.log("Atividades:", atividades);
-    return NextResponse.json(atividades);
-  } catch (error) {
-    console.error("Error fetching activities:", error);
-    NextResponse.error();
-  }
 }
