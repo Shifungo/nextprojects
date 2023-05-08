@@ -26,9 +26,7 @@
   padding: 10px 0;
   background-color: #ddd;
 }
-.otherDays {
-  background-color: rgba(0, 0, 255, 0.409);
-}
+
 .weekdays li {
   display: inline-block;
   width: 13.6%;

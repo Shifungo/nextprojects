@@ -5,9 +5,10 @@ import Atividades from "./Atividades";
 
 interface DayformProps {
   date: string;
+  month: string;
 }
 
-const Dayform: React.FC<DayformProps> = ({ date }) => {
+const Dayform: React.FC<DayformProps> = ({ date, month }) => {
   const [removeAtividade, setRemoveAtividade] = useState(Boolean);
 
   //plus Ativiade handling
@@ -35,7 +36,8 @@ const Dayform: React.FC<DayformProps> = ({ date }) => {
 
   useEffect(() => {
     document.addEventListener("mousedown", closeOpenAddForm);
-  });
+  }),
+    [addAtividade, closeAtividade];
 
   console.log(formRef);
 
@@ -51,6 +53,7 @@ const Dayform: React.FC<DayformProps> = ({ date }) => {
         <div className={styles.floatingForm}>
           <DayAtividadesForm
             date={dateClicked}
+            month={month}
             closeAtividade={closeAtividade}
           />
         </div>
@@ -72,7 +75,7 @@ const Dayform: React.FC<DayformProps> = ({ date }) => {
           <button onClick={subtractAtividade}> - Atividade</button>
         </div>
         <div>
-          <Atividades date={dateClicked} />
+          <Atividades date={dateClicked} month={month} />
         </div>
       </div>
       {showDayAtividadeForm}

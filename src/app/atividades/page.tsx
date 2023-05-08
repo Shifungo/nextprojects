@@ -1,100 +1,113 @@
 "use client";
+import {
+  format,
+  startOfMonth,
+  endOfMonth,
+  eachDayOfInterval,
+  parse,
+} from "date-fns";
+import React, { useEffect, useState } from "react";
 
-import React, { useEffect } from "react";
-import { format, startOfMonth, endOfMonth, eachDayOfInterval } from "date-fns";
-import styles from "@/styles/calendar.module.css";
-import Dayform from "./components/Dayform";
-import { useState } from "react";
+import Calendar from "./components/Calendar";
 
-const Calendar = (): JSX.Element => {
-  //set the days of the month
-  const firstDay = startOfMonth(new Date(2023, 3, 1)); // aplil 1, 2023
-  const lastDay = endOfMonth(firstDay);
-  const daysInMonth = eachDayOfInterval({ start: firstDay, end: lastDay });
-  const headerText = format(firstDay, "MMMM yyyy");
-  const firstDayString = format(firstDay, "dd");
+const Page = (): JSX.Element => {
   const today = new Date();
-  const currentDay = today.getDate();
-  //used to find where the month will start
-  const findWeekDay = firstDay.getDay();
-  const emptyDays = [];
-  //this will set "fake days" to corret where the month start
-  for (let i = 0; i < findWeekDay; i++) {
-    emptyDays.push(
-      <li key={i} className={styles.otherMonth}>
-        {26 + i}
-      </li>
-    );
-  }
+  const todayMonth = today.getMonth();
+  const monthName = new Date(0, todayMonth)
+    .toLocaleString("default", {
+      month: "long",
+    })
+    .toLowerCase();
+  console.log("monthName", monthName);
+  const [month, setMonth] = useState<string>(monthName);
+  const [monthLayout, setMonthLayout] = useState(false);
 
-  //the day clicked in date form and the layout to display the date
-  const [dayClicked, setDayClicked] = useState(parseInt(firstDayString));
-  const [dayClickedLayout, setDayClickedLayout] = useState<JSX.Element | null>(
-    null
+  const [monthChoose, setMonthChoose] = useState<JSX.Element | null>(
+    <div></div>
   );
 
-  function clickHandler(event: React.MouseEvent<HTMLElement, MouseEvent>) {
-    let clickedElement = event.target as HTMLElement;
-    let clickedElementText = clickedElement.textContent;
-
-    let dayClickeded = clickedElementText ? parseInt(clickedElementText) : 0;
-
-    if (clickedElementText) {
-      setDayClicked(dayClickeded);
-    }
+  function monthSelector() {
+    setMonthLayout(!monthLayout);
   }
-  //makes the date format into string
-  const dayLayout = dayClicked;
+  console.log("monthL" + monthLayout);
 
-  //updates every click because of useEfect being updated every time dayClicked updates
   useEffect(() => {
-    const layout = (
-      <div>
-        <h3>{dayLayout != 0 ? dayLayout : firstDayString} de Abril de 2023</h3>
-      </div>
-    );
-    setDayClickedLayout(layout);
-  }, [dayClicked]);
+    if (monthLayout) {
+      setMonthChoose(
+        <div>
+          <span
+            className=" m-2 border-black"
+            onClick={() => setMonth("january")}
+          >
+            january
+          </span>
+          <span
+            className=" m-2 border-black"
+            onClick={() => setMonth("february")}
+          >
+            february
+          </span>
+          <span className=" m-2 border-black" onClick={() => setMonth("march")}>
+            march
+          </span>
+          <span className=" m-2 border-black" onClick={() => setMonth("april")}>
+            april
+          </span>
+          <span className=" m-2 border-black" onClick={() => setMonth("may")}>
+            may
+          </span>
+          <span className=" m-2 border-black" onClick={() => setMonth("june")}>
+            june
+          </span>
+          <span className=" m-2 border-black" onClick={() => setMonth("july")}>
+            july
+          </span>
+          <span
+            className=" m-2 border-blue-500"
+            onClick={() => setMonth("august")}
+          >
+            august
+          </span>
+          <span
+            className=" m-2 border-black"
+            onClick={() => setMonth("september")}
+          >
+            september
+          </span>
+          <span
+            className=" m-2 border-black"
+            onClick={() => setMonth("october")}
+          >
+            october
+          </span>
+          <span
+            className=" m-2 border-black"
+            onClick={() => setMonth("november")}
+          >
+            november
+          </span>
+          <span
+            className=" m-2 border-black"
+            onClick={() => setMonth("december")}
+          >
+            december
+          </span>
+        </div>
+      );
+    }
+  }, [monthLayout]);
 
   return (
     <div className="flex justify-center w-screen">
-      <div className={`${styles.calendarWrapper}`}>
-        <div className={styles.calendar}>
-          <h2>{headerText}</h2>
-          <ul className={styles.weekdays}>
-            <li>Mo</li>
-            <li>Tu</li>
-            <li>We</li>
-            <li>Th</li>
-            <li>Fr</li>
-            <li>Sa</li>
-            <li>Su</li>
-          </ul>
-          <div>
-            <ul className={styles.days}>
-              {emptyDays}
-              {daysInMonth.map((day, index) => (
-                <li
-                  onClick={clickHandler}
-                  key={index}
-                  className={`${
-                    styles[day.getDate() === currentDay ? "today" : ""]
-                  } ${styles.otherDays}`}
-                >
-                  {day.getDate()}
-                </li>
-              ))}
-            </ul>
-          </div>
+      <div className=" w-screen">
+        <div>
+          <button onClick={monthSelector}>{month}</button>
         </div>
-
-        <div className={`${styles.dayForm}`}>
-          {dayClickedLayout}
-          <Dayform date={dayClicked.toString()} />
-        </div>
+        {monthChoose}
+        <Calendar month={month} />
       </div>
     </div>
   );
 };
 
-export default Calendar;
+export default Page;

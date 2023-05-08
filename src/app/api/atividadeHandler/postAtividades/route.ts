@@ -9,6 +9,7 @@ interface ActivityRequest {
   end_time: string;
   moneyChange: string;
   description: string;
+  month: string;
 }
 export async function POST(request: Request, { params }: { params: string }) {
   await prisma.$connect();
@@ -19,6 +20,7 @@ export async function POST(request: Request, { params }: { params: string }) {
     end_time,
     moneyChange,
     description,
+    month,
   }: ActivityRequest = await request.json();
 
   const activity: Activity = await prisma.activity.create({
@@ -29,6 +31,7 @@ export async function POST(request: Request, { params }: { params: string }) {
       end_time,
       moneyChange,
       description,
+      month,
     },
   });
 

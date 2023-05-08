@@ -20,4 +20,5 @@ model Activity {
   end_time     String
   moneyChange String
   description  String
+  month        String
 }

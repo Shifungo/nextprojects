@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import styles from "@/styles/DayAtividades.module.css";
-import { set } from "date-fns";
 
 interface DayAtividadesFormProps {
   date: string;
   closeAtividade: () => void;
+  month: string;
 }
 
 const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
   date,
   closeAtividade,
+  month,
 }): JSX.Element => {
   const [disableSubmit, setDisableSubmit] = useState(true);
   //guarda qual o valor do select
@@ -20,10 +21,11 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
   const [activityData, setActivityData] = useState({
     date: date,
     type: "",
-    start_time: "",
-    end_time: "",
+    start_time: "00:00",
+    end_time: "00:00",
     moneyChange: "",
     description: "",
+    month: month,
   });
 
   //muda o valor das atividades quando o select muda
