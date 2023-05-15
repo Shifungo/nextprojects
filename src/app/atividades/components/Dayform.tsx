@@ -1,7 +1,9 @@
 import styles from "@/styles/Dayform.module.css";
 import { useState, useRef, useEffect } from "react";
-import DayAtividadesForm from "./DayAtividadesForm";
+import DayAtividadesForm from "./addThings/AddAtividadesForm";
 import Atividades from "./Atividades";
+import AddBankForm from "./addThings/AddBankForm";
+import AddCardForm from "./addThings/AddCardForm";
 
 interface DayformProps {
   date: string;
@@ -9,8 +11,7 @@ interface DayformProps {
 }
 
 const Dayform: React.FC<DayformProps> = ({ date, month }) => {
-  const [removeAtividade, setRemoveAtividade] = useState(Boolean);
-
+  const [addCard, setAddCard] = useState<Boolean>(false);
   //plus Ativiade handling
   const [addAtividade, setAddAtividade] = useState(Boolean);
   const formRef = useRef<HTMLDivElement>(null);
@@ -63,9 +64,14 @@ const Dayform: React.FC<DayformProps> = ({ date, month }) => {
     showDayAtividadeForm = <div></div>;
   }
 
+  function setAddCardTrue() {
+    setAddCard(!addCard);
+  }
+
   return (
     <div className={styles.dayFormWrapper}>
       <h3>Atividades</h3>
+      <button onClick={setAddCardTrue}>AddCard</button>
       <div className={styles.dayClickedactivities}>
         <div>
           <p className={styles.DayTitle}>{dateClicked}</p>
@@ -79,6 +85,17 @@ const Dayform: React.FC<DayformProps> = ({ date, month }) => {
         </div>
       </div>
       {showDayAtividadeForm}
+      <div>
+        <AddBankForm />
+        <div>
+          <p>cartao</p>
+        </div>
+        {addCard ? (
+          <AddCardForm addCard={addCard} setAddCardTrue={setAddCardTrue} />
+        ) : (
+          <div></div>
+        )}
+      </div>
     </div>
   );
 };

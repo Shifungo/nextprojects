@@ -17,11 +17,11 @@ interface AtividadesProps {
   date: string;
   month: string;
 }
-interface MonthsMap {
-  [key: string]: string;
-}
+
 const Atividades: React.FC<AtividadesProps> = (date) => {
   const [data, setData] = useState<MyData[] | null>(null);
+  const [id, setId] = useState<number | null>(null);
+  const [show, setShow] = useState<boolean>(false);
 
   //fetch data from api
   useEffect(() => {
@@ -37,11 +37,20 @@ const Atividades: React.FC<AtividadesProps> = (date) => {
     }
     fetchData();
   }, [date]);
-  let id = "0";
 
+  //pega o id do botão clicado e abre a janela de atividades baseada no id
   function atividadeButtonHandler(event: React.MouseEvent<HTMLButtonElement>) {
     const button = (event.target as HTMLInputElement).id;
-    id = button;
+    const idNumber = parseInt(button, 10);
+    if (!isNaN(idNumber)) {
+      setId(idNumber);
+    }
+    setShow(true);
+  }
+
+  // fecha a janela de atividades
+  function close() {
+    setShow(false);
   }
 
   const atividadesGrid = data?.map((atividade) => {
@@ -60,9 +69,17 @@ const Atividades: React.FC<AtividadesProps> = (date) => {
 
   return (
     <div>
-      <div className=" flex flex-wrap">{atividadesGrid}</div>
+      <div className="flex flex-wrap">{atividadesGrid}</div>
       <div>
-        <AtividadesWindow id={id} />
+        {show ? (
+          id && typeof id === "number" ? (
+            <AtividadesWindow id={id} show={show} setShow={close} />
+          ) : (
+            <div></div>
+          )
+        ) : (
+          <div></div>
+        )}
       </div>
     </div>
   );

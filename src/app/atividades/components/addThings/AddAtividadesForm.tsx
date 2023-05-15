@@ -44,8 +44,6 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
     setActivityData((prevState) => ({ ...prevState, [name]: value }));
   }
 
-  let dateClicked = date;
-
   //muda o campo de dinheiro para ganho ou gasto de acordo com o valor do select
   useEffect(() => {
     let moneyChangeElement;
@@ -73,7 +71,9 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
     };
     fetch("/api/atividadeHandler/postAtividades", requestOptions)
       .then((response) => response.json())
-      .then((data) => {})
+      .then((data) => {
+        console.log(data);
+      })
       .catch((error) => {
         console.error(error);
       });

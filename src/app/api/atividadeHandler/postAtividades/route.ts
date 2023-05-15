@@ -1,23 +1,26 @@
-import { PrismaClient, Activity } from "@prisma/client";
+import { Activity, PaymentMethod } from "@prisma/client";
 import { NextResponse } from "next/server";
-const prisma = new PrismaClient();
+import { prisma } from "../../../prismaClient";
 
 interface ActivityRequest {
   date: string;
   type: string;
   start_time: string;
   end_time: string;
+  payment_method: PaymentMethod;
   moneyChange: string;
   description: string;
   month: string;
 }
-export async function POST(request: Request, { params }: { params: string }) {
+export async function POST(request: Request) {
   await prisma.$connect();
+
   const {
     date,
     type,
     start_time,
     end_time,
+    payment_method,
     moneyChange,
     description,
     month,
@@ -29,12 +32,14 @@ export async function POST(request: Request, { params }: { params: string }) {
       type,
       start_time,
       end_time,
+      payment_method: "CASH",
       moneyChange,
       description,
       month,
     },
   });
 
+  prisma.$disconnect();
   return NextResponse.json({
     message: `Atividade ${activity.type} adicionada.`,
   });

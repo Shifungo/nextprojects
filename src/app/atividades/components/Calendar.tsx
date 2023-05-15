@@ -70,7 +70,7 @@ const Calendar = ({ month }: { month: string | null }): JSX.Element => {
       </div>
     );
     setDayClickedLayout(layout);
-  }, [dayClicked]);
+  }, [dayClicked, month]);
   console.log("this is month" + month);
   return (
     <div className=" m-8 w-s">
