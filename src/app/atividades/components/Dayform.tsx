@@ -2,8 +2,6 @@ import styles from "@/styles/Dayform.module.css";
 import { useState, useRef, useEffect } from "react";
 import DayAtividadesForm from "./addThings/AddAtividadesForm";
 import Atividades from "./Atividades";
-import AddBankForm from "./addThings/AddBankForm";
-import AddCardForm from "./addThings/AddCardForm";
 
 interface DayformProps {
   date: string;
@@ -11,7 +9,6 @@ interface DayformProps {
 }
 
 const Dayform: React.FC<DayformProps> = ({ date, month }) => {
-  const [addCard, setAddCard] = useState<Boolean>(false);
   //plus Ativiade handling
   const [addAtividade, setAddAtividade] = useState(Boolean);
   const formRef = useRef<HTMLDivElement>(null);
@@ -42,8 +39,6 @@ const Dayform: React.FC<DayformProps> = ({ date, month }) => {
 
   console.log(formRef);
 
-  function subtractAtividade() {}
-
   const dateClicked = date;
 
   let showDayAtividadeForm = <div></div>;
@@ -64,38 +59,25 @@ const Dayform: React.FC<DayformProps> = ({ date, month }) => {
     showDayAtividadeForm = <div></div>;
   }
 
-  function setAddCardTrue() {
-    setAddCard(!addCard);
-  }
-
   return (
     <div className={styles.dayFormWrapper}>
-      <h3>Atividades</h3>
-      <button onClick={setAddCardTrue}>AddCard</button>
       <div className={styles.dayClickedactivities}>
-        <div>
-          <p className={styles.DayTitle}>{dateClicked}</p>
+        <div className={styles.DayTitle}>
+          <p className={styles.DayTitleLetter}> {dateClicked}</p>
         </div>
-        <div>
-          <button onClick={plusAtividade}>+ Atividade</button>
-          <button onClick={subtractAtividade}> - Atividade</button>
+        <div className="flex justify-end">
+          <button
+            className="bg-[#3E2424]  rounded-3xl m-2 "
+            onClick={plusAtividade}
+          >
+            + Atividade
+          </button>
         </div>
         <div>
           <Atividades date={dateClicked} month={month} />
         </div>
       </div>
       {showDayAtividadeForm}
-      <div>
-        <AddBankForm />
-        <div>
-          <p>cartao</p>
-        </div>
-        {addCard ? (
-          <AddCardForm addCard={addCard} setAddCardTrue={setAddCardTrue} />
-        ) : (
-          <div></div>
-        )}
-      </div>
     </div>
   );
 };

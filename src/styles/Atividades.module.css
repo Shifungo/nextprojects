@@ -1,12 +1,4 @@
-.Exercicios {
-  background-color: green;
-}
-
 .atividade {
-  border: #000 solid 4px;
-  margin: 3px;
-}
-
-.Lazer {
-  background-color: red;
+  border: #2a1818 solid 4px;
+  margin: 1rem;
 }

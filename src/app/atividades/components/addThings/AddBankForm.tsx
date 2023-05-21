@@ -1,11 +1,6 @@
 import { useState } from "react";
-import React from "react";
 
-interface BankFormProps {
-  bankName: string;
-}
-
-const AddBankForm: React.FC = () => {
+export default function AddBankForm(): JSX.Element {
   const [bankName, setBankName] = useState({
     bankName: "",
   });
@@ -52,6 +47,4 @@ const AddBankForm: React.FC = () => {
       </form>
     </div>
   );
-};
-
-export default AddBankForm;
+}

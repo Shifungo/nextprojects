@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import styles from "@/styles/DayAtividades.module.css";
+import { JsxElement } from "typescript";
 
 interface DayAtividadesFormProps {
   date: string;
@@ -15,6 +16,7 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
   const [disableSubmit, setDisableSubmit] = useState(true);
   //guarda qual o valor do select
   const [selectedOption, setSelectedOption] = useState("");
+  const [metodo, setMetodo] = useState("");
   //muda o nome do label de acordo com o valor do select para gasto ou ganho
   const [moneyChange, setMoneyChange] = useState("");
   //guarda os dados do form
@@ -27,6 +29,9 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
     description: "",
     month: month,
   });
+  const [metodoPagamento, setMetodoPagamento] = useState<JSX.Element | null>(
+    null
+  );
 
   //muda o valor das atividades quando o select muda
   function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -78,48 +83,87 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
         console.error(error);
       });
   }
-  console.log(activityData);
+  //muda o metodo de pagamento
+  function handleMetodoPagamento(event: React.ChangeEvent<HTMLSelectElement>) {
+    setMetodo(event.target.value);
+    if (metodo === "dinheiro") {
+      setMetodoPagamento(() => (
+        <div>
+          <label htmlFor="">Valor</label>
+          <input
+            type="number"
+            name="moneyChange"
+            onChange={handleChange}
+            required
+          />
+        </div>
+      ));
+    }
+  }
+  useEffect(() => {}, [metodo]);
   return (
-    <form className={styles.formWrapper} action="" onSubmit={handleSubmit}>
-      <label htmlFor="">Tipo de atividade</label>
-      <select
-        name="type"
-        id="atividades"
-        onChange={handleSelectChange}
-        required
+    <div className={`${styles.formDiv} bg-[#3E2424]`}>
+      <form
+        className="flex flex-col  m-5 text-[#e29898]"
+        action=""
+        onSubmit={handleSubmit}
       >
-        <option className="bg-red-500" value="selecione">
-          selecione
-        </option>
-        <option value="Lazer">Lazer</option>
-        <option value="Exercicios">Exercicios</option>
-        <option value="Outros">Outros</option>
-        <option value="Trabalho">Trabalho</option>
-      </select>
-      <div className="">
-        <label htmlFor="">tempo de inicio</label>
-        <input type="time" name="start_time" onChange={handleChange} required />
-        <label htmlFor=""> termino</label>
-        <input type="time" name="end_time" onChange={handleChange} required />
-      </div>
-      <label htmlFor="">{moneyChange}</label>
+        <label className="m-2" htmlFor="">
+          Tipo de atividade
+        </label>
+        <select
+          className="m-2"
+          name="type"
+          id="atividades"
+          onChange={handleSelectChange}
+          required
+        >
+          <option className="bg-red-500" value="selecione">
+            selecione
+          </option>
+          <option value="Lazer">Lazer</option>
+          <option value="Exercicios">Exercicios</option>
+          <option value="Outros">Outros</option>
+          <option value="Trabalho">Trabalho</option>
+        </select>
+        <div className="">
+          <label htmlFor="">Time</label>
+          <input
+            type="number"
+            name="start_time"
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="">Medoto de Pagamento</label>
+          <select name="metodo" id="payment" onChange={handleMetodoPagamento}>
+            <option value="dinheiro">Dinheiro</option>
+            <option value="cartao">Cartão</option>
+            <option value="pix">Pix</option>
+            <option value="transferencia">Transferencia</option>
+            <option value="outros">Outros</option>
+          </select>
+        </div>
+        <label htmlFor="">{moneyChange}</label>
 
-      <input type="number" name="moneyChange" onChange={handleChange} />
-      <label htmlFor="">descrição</label>
-      <textarea
-        name="description"
-        className=" m-2"
-        onChange={handleChange}
-      ></textarea>
-      <div className={styles.btnFormWrapper}>
-        <button type="submit" disabled={disableSubmit}>
-          SALVAR
-        </button>
-        <button type="button" onClick={closeAtividade}>
-          DISCARTAR
-        </button>
-      </div>
-    </form>
+        <input type="number" name="moneyChange" onChange={handleChange} />
+        <label htmlFor="">descrição</label>
+        <textarea
+          name="description"
+          className=" m-2"
+          onChange={handleChange}
+        ></textarea>
+        <div className={styles.btnFormWrapper}>
+          <button type="submit" disabled={disableSubmit}>
+            SALVAR
+          </button>
+          <button type="button" onClick={closeAtividade}>
+            DISCARTAR
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

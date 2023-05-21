@@ -1,4 +1,4 @@
-import "./globals.css";
+import NavBar from "../components/NavBar";
 
 export const metadata = {
   title: "Portfolio",
@@ -11,8 +11,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
+    <section>
+      <NavBar />
+      {children}
+    </section>
   );
 }

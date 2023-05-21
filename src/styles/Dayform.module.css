@@ -2,16 +2,27 @@
   display: flex;
   flex-direction: column;
   margin: 10px;
-  border: 4px solid black;
-  background-color: rgba(0, 0, 255, 0.409);
+  background-color: #a87070;
+  border-radius: 20px;
 
   font-size: 3rem;
-  color: white;
+  color: #c75050;
   width: 100%;
   height: 85%;
 }
 .DayTitle {
   margin: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+.DayTitleLetter {
+  width: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: #3e2424;
+  font-size: 3rem;
 }
 .floatingForm {
   position: fixed;
@@ -21,6 +32,7 @@
   z-index: 9999;
 }
 .dayFormWrapper {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  width: 40%;
+  height: 60%;
 }

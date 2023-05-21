@@ -5,6 +5,7 @@ import {
   endOfMonth,
   eachDayOfInterval,
   parse,
+  set,
 } from "date-fns";
 import Dayform from "./Dayform";
 import styles from "@/styles/calendar.module.css";
@@ -19,10 +20,10 @@ const Calendar = ({ month }: { month: string | null }): JSX.Element => {
   const lastDay = endOfMonth(firstDay);
   const firstDayWeek = firstDay.getDay();
   const daysInMonth = eachDayOfInterval({ start: firstDay, end: lastDay });
-  const headerText = format(firstDay, "MMMM yyyy");
   const firstDayString = format(firstDay, "dd");
 
   const [dayClicked, setDayClicked] = useState(parseInt(currentDay.toString()));
+  const [dayOverlay, setDayOverlay] = useState(false);
 
   const [dayClickedLayout, setDayClickedLayout] = useState<JSX.Element | null>(
     <div>
@@ -31,13 +32,16 @@ const Calendar = ({ month }: { month: string | null }): JSX.Element => {
       </h3>
     </div>
   );
-  const emptyDays = [];
+
+  function togleDayOverlay() {
+    setDayOverlay(!dayOverlay);
+  }
 
   function clickHandler(event: React.MouseEvent<HTMLElement, MouseEvent>) {
     let clickedElement = event.target as HTMLElement;
     let clickedElementText = clickedElement.textContent;
-
     let dayClickeded = clickedElementText ? parseInt(clickedElementText) : 0;
+    togleDayOverlay();
 
     if (clickedElement) {
       document.querySelectorAll("span").forEach((element) => {
@@ -54,13 +58,20 @@ const Calendar = ({ month }: { month: string | null }): JSX.Element => {
       setDayClicked(dayClickeded);
     }
   }
-
+  const emptyDays = [];
   for (let i = 0; i < firstDayWeek; i++) {
-    emptyDays.push(<span key={i}> </span>);
+    emptyDays.push(<span key={i} className=" bg-gray-400"></span>);
   }
-
   const dayLayout = dayClicked;
-
+  const emptySlotsBotton = 42 - daysInMonth.length - emptyDays.length;
+  const emptyDaysBotton = [];
+  for (let i = 0; i < emptySlotsBotton; i++) {
+    emptyDaysBotton.push(
+      <span key={i} className=" bg-gray-400 text-slate-500 ">
+        {i + 1}
+      </span>
+    );
+  }
   useEffect(() => {
     const layout = (
       <div>
@@ -71,41 +82,42 @@ const Calendar = ({ month }: { month: string | null }): JSX.Element => {
     );
     setDayClickedLayout(layout);
   }, [dayClicked, month]);
-  console.log("this is month" + month);
+
   return (
-    <div className=" m-8 w-s">
-      <div className="flex w-screen">
-        <div className=" mx-4 w-1/2 h-screen">
-          <h2>{headerText}</h2>
-          <ul className=" bg-orange-500 grid grid-cols-7 border-4 border-black ">
-            <li className="border-4 border-green">Dom</li>
-            <li className="border-4 border-green">Seg</li>
-            <li className="border-4 border-green">Tec</li>
-            <li className="border-4 border-green">Qua</li>
-            <li className="border-4 border-green">Qui</li>
-            <li className="border-4 border-green">Sex</li>
-            <li className="border-4 border-green">Sab</li>
+    <div className=" m-0 mr-8 ml-8 mb-8 w-s h-screen w-screen">
+      <div className=" w-screen h-screen ">
+        <div className={styles.calendarWrapper}>
+          <ul className={styles.diasDaSemana}>
+            <li className="">Dom</li>
+            <li className="">Seg</li>
+            <li className="">Tec</li>
+            <li className="">Qua</li>
+            <li className="">Qui</li>
+            <li className="">Sex</li>
+            <li className="">Sab</li>
           </ul>
-          <div className="h-screen">
-            <div className="grid grid-cols-7 grid-rows-5 w-full h-5/6">
+          <div className="h-full w-full">
+            <div className="grid grid-cols-7 grid-rows-6 h-full">
               {emptyDays}
               {daysInMonth.map((day, index) => (
                 <span
                   onClick={clickHandler}
                   key={index}
-                  className={` ${
+                  className={`h-full w-full  ${
                     styles[day.getDate() === currentDay ? "today" : ""]
-                  } m-0.5 bg-orange-500 `}
+                  } m-0.5 bg-[#D54A4A] `}
                 >
                   {day.getDate()}
                 </span>
               ))}
+              {emptyDaysBotton}
             </div>
           </div>
-        </div>
-        <div className={`h-5/6 ${styles.dayForm}`}>
-          {dayClickedLayout}
-          <Dayform date={dayClicked.toString()} month={month} />
+          {dayOverlay ? (
+            <Dayform date={dayClicked.toString()} month={month} />
+          ) : (
+            <div></div>
+          )}
         </div>
       </div>
     </div>

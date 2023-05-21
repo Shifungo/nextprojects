@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 
 import Calendar from "./components/Calendar";
+import AddBankCardWrapper from "./components/AddBankCardWrapper";
 
 const Page = (): JSX.Element => {
   const today = new Date();
@@ -12,7 +13,6 @@ const Page = (): JSX.Element => {
       month: "long",
     })
     .toLowerCase();
-  console.log("monthName", monthName);
   const [month, setMonth] = useState<string>(monthName);
   const [monthLayout, setMonthLayout] = useState(false);
 
@@ -23,10 +23,10 @@ const Page = (): JSX.Element => {
   function monthSelector() {
     setMonthLayout(!monthLayout);
   }
-  console.log("monthL" + monthLayout);
+  console.log("this is month layout ", monthLayout);
 
   useEffect(() => {
-    if (monthLayout) {
+    if (monthLayout === true) {
       setMonthChoose(
         <div>
           <span
@@ -88,6 +88,8 @@ const Page = (): JSX.Element => {
           </span>
         </div>
       );
+    } else {
+      setMonthChoose(null);
     }
   }, [monthLayout]);
 
@@ -95,7 +97,17 @@ const Page = (): JSX.Element => {
     <div className="flex justify-center w-screen">
       <div className=" w-screen">
         <div>
-          <button onClick={monthSelector}>{month}</button>
+          <div className="hidden">
+            <AddBankCardWrapper />
+          </div>
+        </div>
+        <div>
+          <h1
+            className=" text-5xl flex justify-center border-slate-100 border-8"
+            onClick={monthSelector}
+          >
+            {month.toUpperCase()}
+          </h1>
         </div>
         {monthChoose}
         <Calendar month={month} />

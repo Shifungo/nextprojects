@@ -22,6 +22,7 @@ const Atividades: React.FC<AtividadesProps> = (date) => {
   const [data, setData] = useState<MyData[] | null>(null);
   const [id, setId] = useState<number | null>(null);
   const [show, setShow] = useState<boolean>(false);
+  console.log("date:", date);
 
   //fetch data from api
   useEffect(() => {
@@ -54,13 +55,12 @@ const Atividades: React.FC<AtividadesProps> = (date) => {
   }
 
   const atividadesGrid = data?.map((atividade) => {
-    let atividadeType = atividade.type;
     return (
       <button
         onClick={atividadeButtonHandler}
         key={atividade.id}
         id={atividade.id.toString()}
-        className={`${style.atividade} ${style[atividadeType]}`}
+        className={`${style.atividade} bg-[#3E2424] rounded-3xl `}
       >
         {atividade.type}
       </button>
@@ -69,7 +69,9 @@ const Atividades: React.FC<AtividadesProps> = (date) => {
 
   return (
     <div>
-      <div className="flex flex-wrap">{atividadesGrid}</div>
+      <div className="flex flex-wrap m-4 bg-[#906262] border-gray-300 shadow-inner rounded-3xl">
+        {atividadesGrid}
+      </div>
       <div>
         {show ? (
           id && typeof id === "number" ? (

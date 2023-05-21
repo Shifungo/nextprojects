@@ -1,4 +1,3 @@
-import { set } from "date-fns";
 import React, { useState, useEffect } from "react";
 
 interface MyBankData {
@@ -72,13 +71,15 @@ const AddCardForm: React.FC<AddCardFormProps> = ({
       .then((data) => {
         setBankAccounts(data);
         console.log(data);
+        setBankAccountOptions(<option value="">Carregando...</option>);
       })
       .catch((error) => {
         console.error(error);
       });
   }, [addCard]);
+
   const [bankAccountOptions, setBankAccountOptions] = useState<JSX.Element>(
-    <option value="">Nenhum banco cadastrado</option>
+    <option value="">Carregando...</option>
   );
 
   useEffect(() => {
@@ -93,10 +94,11 @@ const AddCardForm: React.FC<AddCardFormProps> = ({
           ))}
         </>
       );
-    } else {
+    } else if (bankAccounts === null) {
       bankAccountOptions = <option value="">Nenhum banco cadastrado</option>;
+    } else {
+      bankAccountOptions = <option value="">Carregando...</option>;
     }
-
     setBankAccountOptions(bankAccountOptions);
   }, [addCard, bankAccounts]);
 

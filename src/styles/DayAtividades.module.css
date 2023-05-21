@@ -29,3 +29,7 @@
 .btnFormWrapper > button {
   margin: 5px;
 }
+.formDiv {
+  height: 30em;
+  width: 25em;
+}

@@ -1,5 +1,3 @@
-import "./globals.css";
-
 export const metadata = {
   title: "Portfolio",
   description: "My Portfolio",
@@ -11,8 +9,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
+    <section>
+      <title>Calendario</title>
+      {children}
+    </section>
   );
 }
