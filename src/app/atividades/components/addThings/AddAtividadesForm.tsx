@@ -1,11 +1,15 @@
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "@/styles/DayAtividades.module.css";
-import { JsxElement } from "typescript";
+import { set } from "date-fns";
 
 interface DayAtividadesFormProps {
   date: string;
   closeAtividade: () => void;
   month: string;
+}
+interface MyBankData {
+  id: string;
+  bank_name: string;
 }
 
 const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
@@ -19,6 +23,11 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
   const [metodo, setMetodo] = useState("");
   //muda o nome do label de acordo com o valor do select para gasto ou ganho
   const [moneyChange, setMoneyChange] = useState("");
+  //dados dos bancos
+  const [bankAccounts, setBankAccounts] = useState<MyBankData[] | null>(null);
+  const [bankAccountOptions, setBankAccountOptions] = useState<JSX.Element>(
+    <option value="">Carregando...</option>
+  );
   //guarda os dados do form
   const [activityData, setActivityData] = useState({
     date: date,
@@ -28,10 +37,48 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
     moneyChange: "",
     description: "",
     month: month,
+    payment_method: metodo,
   });
   const [metodoPagamento, setMetodoPagamento] = useState<JSX.Element | null>(
     null
   );
+  //muda o valor do select de acordo com o valor do fetch dos bancos 5/22/2023
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/banks");
+        const data = await response.json();
+        setBankAccounts(data);
+        console.log(data);
+
+        let bankAccountOptions: JSX.Element | null = null;
+        setBankAccountOptions(<option value="">Carregando...</option>);
+        if (data) {
+          bankAccountOptions = (
+            <>
+              {data.map((bankAccount: MyBankData) => (
+                <option key={bankAccount.id} value={bankAccount.id}>
+                  {bankAccount.bank_name}
+                </option>
+              ))}
+            </>
+          );
+        } else if (data === null) {
+          bankAccountOptions = (
+            <option value="">Nenhum banco cadastrado</option>
+          );
+        } else {
+          bankAccountOptions = <option value="">Carregando...</option>;
+        }
+        console.log(bankAccountOptions);
+        setBankAccountOptions(bankAccountOptions);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [metodo]);
 
   //muda o valor das atividades quando o select muda
   function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -63,6 +110,7 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
     }
     setMoneyChange(moneyChangeElement);
   }, [selectedOption]);
+
   //submit form data
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     closeAtividade();
@@ -86,21 +134,53 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
   //muda o metodo de pagamento
   function handleMetodoPagamento(event: React.ChangeEvent<HTMLSelectElement>) {
     setMetodo(event.target.value);
-    if (metodo === "dinheiro") {
+  }
+
+  useEffect(() => {
+    if (metodo === "CASH") {
       setMetodoPagamento(() => (
         <div>
-          <label htmlFor="">Valor</label>
-          <input
-            type="number"
-            name="moneyChange"
-            onChange={handleChange}
-            required
-          />
+          <label htmlFor="">{moneyChange}</label>
+          <input type="number" name="moneyChange" onChange={handleChange} />
+        </div>
+      ));
+    } else if (metodo === "CARD") {
+      setMetodoPagamento(() => (
+        <div>
+          <label htmlFor="">{moneyChange}</label>
+          <input type="number" name="moneyChange" onChange={handleChange} />
+          <label htmlFor="">QUAL CARTAO</label>
+          <select name="" id="">
+            {bankAccountOptions}
+          </select>
+        </div>
+      ));
+    } else if (metodo === "PIX") {
+      setMetodoPagamento(() => (
+        <div>
+          <label htmlFor="">{moneyChange}</label>
+          <input type="number" name="moneyChange" onChange={handleChange} />
+          <label htmlFor="">QUAL BANCO</label>
+          <select name="" id="">
+            {bankAccountOptions}
+          </select>
+        </div>
+      ));
+    } else if (metodo === "TRANSFER") {
+      setMetodoPagamento(() => (
+        <div>
+          <label htmlFor="">{moneyChange}</label>
+          <input type="number" name="moneyChange" onChange={handleChange} />
+          <label htmlFor="">QUAL BANCO</label>
+          <select name="" id="">
+            {bankAccountOptions}
+          </select>
         </div>
       ));
     }
-  }
-  useEffect(() => {}, [metodo]);
+  }, [metodo]);
+
+  console.log("bankAccounts" + bankAccountOptions);
   return (
     <div className={`${styles.formDiv} bg-[#3E2424]`}>
       <form
@@ -138,22 +218,20 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
         <div>
           <label htmlFor="">Medoto de Pagamento</label>
           <select name="metodo" id="payment" onChange={handleMetodoPagamento}>
-            <option value="dinheiro">Dinheiro</option>
-            <option value="cartao">Cartão</option>
-            <option value="pix">Pix</option>
-            <option value="transferencia">Transferencia</option>
-            <option value="outros">Outros</option>
+            <option value="CASH">Dinheiro</option>
+            <option value="CARD">Cartão</option>
+            <option value="PIX">Pix</option>
+            <option value="TRANSFER">Transferencia</option>
           </select>
         </div>
-        <label htmlFor="">{moneyChange}</label>
 
-        <input type="number" name="moneyChange" onChange={handleChange} />
         <label htmlFor="">descrição</label>
         <textarea
           name="description"
           className=" m-2"
           onChange={handleChange}
         ></textarea>
+        <div>{metodoPagamento}</div>
         <div className={styles.btnFormWrapper}>
           <button type="submit" disabled={disableSubmit}>
             SALVAR

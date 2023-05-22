@@ -1,4 +1,4 @@
-import React, { useState, useEffect, HTMLAttributes } from "react";
+import React, { useState, useEffect } from "react";
 import style from "@/styles/Atividades.module.css";
 import AtividadesWindow from "./AtividadesWindow";
 
@@ -22,6 +22,7 @@ const Atividades: React.FC<AtividadesProps> = (date) => {
   const [data, setData] = useState<MyData[] | null>(null);
   const [id, setId] = useState<number | null>(null);
   const [show, setShow] = useState<boolean>(false);
+  const [dateProp, setDate] = useState({ date: date.date, month: date.month });
   console.log("date:", date);
 
   //fetch data from api
@@ -37,7 +38,7 @@ const Atividades: React.FC<AtividadesProps> = (date) => {
       setData(json as MyData[]);
     }
     fetchData();
-  }, [date]);
+  }, [dateProp]);
 
   //pega o id do botão clicado e abre a janela de atividades baseada no id
   function atividadeButtonHandler(event: React.MouseEvent<HTMLButtonElement>) {

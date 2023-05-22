@@ -32,7 +32,6 @@ export async function GET() {
   const bankAccounts: BankAccount[] = await prisma.bankAccount.findMany();
 
   prisma.$disconnect();
-
-  return NextResponse.json(bankAccounts);
   console.log(bankAccounts);
+  return NextResponse.json(bankAccounts);
 }
