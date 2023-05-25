@@ -38,10 +38,15 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
     description: "",
     month: month,
     payment_method: metodo,
+    card_id: null,
+    transfer_id: null,
+    pix_id: null,
   });
   const [metodoPagamento, setMetodoPagamento] = useState<JSX.Element | null>(
     null
   );
+  console.log(activityData);
+
   //muda o valor do select de acordo com o valor do fetch dos bancos 5/22/2023
   useEffect(() => {
     const fetchData = async () => {
@@ -76,7 +81,10 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
         console.error(error);
       }
     };
-
+    setActivityData((prevState) => ({
+      ...prevState,
+      payment_method: metodo,
+    }));
     fetchData();
   }, [metodo]);
 
@@ -135,7 +143,6 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
   function handleMetodoPagamento(event: React.ChangeEvent<HTMLSelectElement>) {
     setMetodo(event.target.value);
   }
-
   useEffect(() => {
     if (metodo === "CASH") {
       setMetodoPagamento(() => (
@@ -177,6 +184,7 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
           </select>
         </div>
       ));
+    
     }
   }, [metodo]);
 
