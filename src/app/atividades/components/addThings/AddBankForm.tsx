@@ -34,16 +34,28 @@ export default function AddBankForm(): JSX.Element {
   }
 
   return (
-    <div>
-      <form action="" onSubmit={handleSubmit}>
-        <label htmlFor="bankName">Bank Name</label>
-        <input
-          type="text"
-          name="bankName"
-          id="bankName"
-          onChange={onChange}
-          required
-        />
+    <div className=" fixed inset-0 flex items-center justify-center z-50">
+      <form
+        action=""
+        onSubmit={handleSubmit}
+        className="flex flex-col bg-[#3E2424] rounded-3xl text-[#e29898]"
+      >
+        <div className=" m-8">
+          <h2>
+            <span className="text-2xl">Add Bank</span>
+          </h2>
+        </div>
+        <div className="m-8">
+          <label htmlFor="bankName">Bank Name</label>
+          <input
+            type="text"
+            name="bankName"
+            id="bankName"
+            className="m-2"
+            onChange={onChange}
+            required
+          />
+        </div>
       </form>
     </div>
   );

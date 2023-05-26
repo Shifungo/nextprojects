@@ -70,7 +70,8 @@ model CARDPayment {
 
 model BankAccount {
   id          Int        @id @default(autoincrement())
-  bank_name   String
+  bank_name   String   @unique
+  
   card       CARDPayment[]
   transfer    TransferPayment[]
   pix         PIXPayment[]

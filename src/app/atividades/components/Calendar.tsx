@@ -9,6 +9,7 @@ import {
 } from "date-fns";
 import Dayform from "./Dayform";
 import styles from "@/styles/calendar.module.css";
+import AddBankForm from "./addThings/AddBankForm";
 
 const Calendar = ({ month }: { month: string | null }): JSX.Element => {
   const today = new Date();
@@ -118,6 +119,9 @@ const Calendar = ({ month }: { month: string | null }): JSX.Element => {
           ) : (
             <div></div>
           )}
+        </div>
+        <div>
+          <AddBankForm />
         </div>
       </div>
     </div>
