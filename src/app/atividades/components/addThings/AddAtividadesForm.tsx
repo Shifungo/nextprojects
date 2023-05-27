@@ -11,6 +11,16 @@ interface MyBankData {
   id: string;
   bank_name: string;
 }
+type ActivityData = {
+  date: string;
+  type: string;
+  start_time: string;
+  moneyChange: string;
+  description: string;
+  month: string;
+  payment_method: string;
+  card_id: string | null;
+};
 
 const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
   date,
@@ -29,18 +39,15 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
     <option value="">Carregando...</option>
   );
   //guarda os dados do form
-  const [activityData, setActivityData] = useState({
+  const [activityData, setActivityData] = useState<ActivityData>({
     date: date,
     type: "",
     start_time: "00:00",
-    end_time: "00:00",
     moneyChange: "",
     description: "",
     month: month,
     payment_method: metodo,
     card_id: null,
-    transfer_id: null,
-    pix_id: null,
   });
   const [metodoPagamento, setMetodoPagamento] = useState<JSX.Element | null>(
     null
@@ -88,7 +95,7 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
     fetchData();
   }, [metodo]);
 
-  //muda o valor das atividades quando o select muda
+  //muda o valor do tipo das atividades quando o select muda
   function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
     setSelectedOption(event.target.value);
     setActivityData((prevState) => ({
@@ -96,6 +103,14 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
       type: event.target.value,
     }));
   }
+  //altera o valor do metodo do banco quando o select muda
+  function handleBankSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    setActivityData((prevState) => ({
+      ...prevState,
+      card_id: event.target.value,
+    }));
+  }
+
   //altera o valor das atividades quuando o input muda
   function handleChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -103,7 +118,7 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
     const { name, value } = event.target;
     setActivityData((prevState) => ({ ...prevState, [name]: value }));
   }
-
+  console.log("this is the card id " + activityData.card_id);
   //muda o campo de dinheiro para ganho ou gasto de acordo com o valor do select
   useEffect(() => {
     let moneyChangeElement;
@@ -157,7 +172,8 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
           <label htmlFor="">{moneyChange}</label>
           <input type="number" name="moneyChange" onChange={handleChange} />
           <label htmlFor="">QUAL CARTAO</label>
-          <select name="" id="">
+          <select name="bank" id="" onChange={handleBankSelectChange}>
+            <option value="select">Escolha um Banco</option>
             {bankAccountOptions}
           </select>
         </div>
@@ -168,7 +184,9 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
           <label htmlFor="">{moneyChange}</label>
           <input type="number" name="moneyChange" onChange={handleChange} />
           <label htmlFor="">QUAL BANCO</label>
-          <select name="" id="">
+          <select name="bank" id="" onChange={handleBankSelectChange}>
+            <option value="select">Escolha um Banco</option>
+
             {bankAccountOptions}
           </select>
         </div>
@@ -179,16 +197,16 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
           <label htmlFor="">{moneyChange}</label>
           <input type="number" name="moneyChange" onChange={handleChange} />
           <label htmlFor="">QUAL BANCO</label>
-          <select name="" id="">
+          <select name="bank" id="" onChange={handleBankSelectChange}>
+            <option value="select">Escolha um Banco</option>
+
             {bankAccountOptions}
           </select>
         </div>
       ));
-    
     }
   }, [metodo]);
 
-  console.log("bankAccounts" + bankAccountOptions);
   return (
     <div className={`${styles.formDiv} bg-[#3E2424]`}>
       <form
@@ -196,6 +214,9 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
         action=""
         onSubmit={handleSubmit}
       >
+        <div>
+          <button onClick={closeAtividade}>X</button>
+        </div>
         <label className="m-2" htmlFor="">
           Tipo de atividade
         </label>

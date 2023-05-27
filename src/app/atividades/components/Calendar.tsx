@@ -120,9 +120,6 @@ const Calendar = ({ month }: { month: string | null }): JSX.Element => {
             <div></div>
           )}
         </div>
-        <div>
-          <AddBankForm />
-        </div>
       </div>
     </div>
   );
