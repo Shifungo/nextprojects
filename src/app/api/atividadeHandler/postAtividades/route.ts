@@ -27,6 +27,7 @@ export async function POST(request: Request) {
     moneyChange,
     description,
     month,
+    card_id,
   }: ActivityRequest = await request.json();
 
   if (payment_method === "CASH") {
@@ -43,8 +44,9 @@ export async function POST(request: Request) {
       },
     });
   }
+
   if (payment_method === "CARD") {
-    const activity: Activity = await prisma.activity.create({
+    const createdActivity: Activity = await prisma.activity.create({
       data: {
         date,
         type,
@@ -54,10 +56,13 @@ export async function POST(request: Request) {
         moneyChange,
         description,
         month,
-        card_id: 1,
+        card_id,
       },
     });
+
+    console.log(createdActivity);
   }
+
   if (payment_method === "PIX") {
     const activity: Activity = await prisma.activity.create({
       data: {

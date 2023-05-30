@@ -19,7 +19,7 @@ type ActivityData = {
   description: string;
   month: string;
   payment_method: string;
-  card_id: string | null;
+  card_id: number | null;
 };
 
 const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
@@ -107,7 +107,7 @@ const DayAtividadesForm: React.FC<DayAtividadesFormProps> = ({
   function handleBankSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
     setActivityData((prevState) => ({
       ...prevState,
-      card_id: event.target.value,
+      card_id: +event.target.value,
     }));
   }
 
