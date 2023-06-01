@@ -11,23 +11,23 @@ datasource db {
 }
 
 model Activity {
-  id             Int           @id @default(autoincrement())
-  date           String
-  type           String
-  start_time     String
-  end_time       String
-  payment_method PaymentMethod
-  moneyChange   String
-  description    String
-  month          String
-  card_payment   CARDPayment?  @relation(fields: [card_id], references: [id])
-  card_id        Int?
-  cash_payment   CASHPayment?  @relation(fields: [cash_id], references: [id])
-  cash_id        Int?
+  id               Int              @id @default(autoincrement())
+  date             String
+  type             String
+  start_time       String
+  end_time         String
+  payment_method   PaymentMethod
+  moneyChange      String
+  description      String
+  month            String
+  card_payment     CARDPayment?     @relation(fields: [card_id], references: [id])
+  card_id          Int?
+  cash_payment     CASHPayment?     @relation(fields: [cash_id], references: [id])
+  cash_id          Int?
   transfer_payment TransferPayment? @relation(fields: [transfer_id], references: [id])
-  transfer_id    Int?
-  pix_payment   PIXPayment?  @relation(fields: [pix_id], references: [id])
-  pix_id        Int?
+  transfer_id      Int?
+  pix_payment      PIXPayment?      @relation(fields: [pix_id], references: [id])
+  pix_id           Int?
 }
 
 enum PaymentMethod {
@@ -38,42 +38,41 @@ enum PaymentMethod {
 }
 
 model CASHPayment {
-  id          Int        @id @default(autoincrement())
-  Activity   Activity[] 
+  id       Int        @id @default(autoincrement())
+  Activity Activity[]
 }
 
 model TransferPayment {
-  id          Int        @id @default(autoincrement())
+  id                  Int         @id @default(autoincrement())
   bank_account_number BankAccount @relation(fields: [bank_account_id], references: [id])
-  bank_account_id Int
-  Activity   Activity[]
+  bank_account_id     Int
+  Activity            Activity[]
 }
 
-model PIXPayment{
-  id          Int        @id @default(autoincrement())
+model PIXPayment {
+  id                  Int         @id @default(autoincrement())
   bank_account_number BankAccount @relation(fields: [bank_account_id], references: [id])
-  bank_account_id Int
-  Activity   Activity[]
+  bank_account_id     Int
+  Activity            Activity[]
 }
 
 model CARDPayment {
-  id          Int        @id @default(autoincrement())
-  card_number String
-  card_name   String
-  card_close_day Int
-  card_due_day Int
-  card_limit  String
+  id                  Int         @id @default(autoincrement())
+  card_number         String
+  card_name           String
+  card_close_day      Int
+  card_due_day        Int
+  card_limit          String
   bank_account_number BankAccount @relation(fields: [bank_account_id], references: [id])
-  bank_account_id Int
-  Activity   Activity[]
+  bank_account_id     Int
+  Activity            Activity[]
 }
 
 model BankAccount {
-  id          Int        @id @default(autoincrement())
-  bank_name   String   @unique
-  
-  card       CARDPayment[]
-  transfer    TransferPayment[]
-  pix         PIXPayment[]
-}
+  id        Int    @id @default(autoincrement())
+  bank_name String @unique
 
+  card     CARDPayment[]
+  transfer TransferPayment[]
+  pix      PIXPayment[]
+}

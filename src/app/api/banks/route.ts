@@ -1,4 +1,4 @@
-import { BankAccount } from "@prisma/client";
+import { BankAccount, PIXPayment, TransferPayment } from "@prisma/client";
 import { prisma } from "../../prismaClient";
 import { NextResponse } from "next/server";
 
@@ -11,27 +11,35 @@ export async function POST(request: Request) {
 
   const { bankName }: BankAccountRequest = await request.json();
 
-  console.log(bankName);
+  try {
+    const bankAccount: BankAccount = await prisma.bankAccount.create({
+      data: {
+        bank_name: bankName,
+      },
+    });
 
-  const bankAccount: BankAccount = await prisma.bankAccount.create({
-    data: {
-      bank_name: bankName,
-    },
-  });
+    await prisma.pIXPayment.create({
+      data: {
+        bank_account_number: {
+          connect: { id: bankAccount.id },
+        },
+      },
+    });
 
-  prisma.$disconnect();
+    await prisma.transferPayment.create({
+      data: {
+        bank_account_number: {
+          connect: { id: bankAccount.id },
+        },
+      },
+    });
 
-  return NextResponse.json({
-    message: `Conta ${bankAccount.bank_name} adicionada.`,
-  });
-}
-
-export async function GET() {
-  await prisma.$connect();
-
-  const bankAccounts: BankAccount[] = await prisma.bankAccount.findMany();
-
-  prisma.$disconnect();
-  console.log(bankAccounts);
-  return NextResponse.json(bankAccounts);
+    return NextResponse.json({
+      message: "Bank account created successfully",
+    });
+  } catch (error) {
+    console.error("Error creating bank account:", error);
+  } finally {
+    await prisma.$disconnect();
+  }
 }

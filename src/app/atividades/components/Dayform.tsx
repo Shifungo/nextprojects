@@ -2,6 +2,7 @@ import styles from "@/styles/Dayform.module.css";
 import { useState, useRef, useEffect } from "react";
 import DayAtividadesForm from "./addThings/AddAtividadesForm";
 import Atividades from "./Atividades";
+import AddBankCardWrapper from "./AddBankCardWrapper";
 
 interface DayformProps {
   date: string;
@@ -72,6 +73,7 @@ const Dayform: React.FC<DayformProps> = ({ date, month }) => {
           >
             + Atividade
           </button>
+          <AddBankCardWrapper />
         </div>
         <div>
           <Atividades date={dateClicked} month={month} />
