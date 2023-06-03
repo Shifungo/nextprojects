@@ -25,7 +25,6 @@ export async function POST(request: Request) {
         },
       },
     });
-    console.log(bankAccount);
     await prisma.transferPayment.create({
       data: {
         bank_account_number: {
