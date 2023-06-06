@@ -32,7 +32,7 @@ export async function POST(request: Request) {
         },
       },
     });
-
+    console.log(bankAccount);
     return NextResponse.json({
       message: "Bank account created successfully",
     });
