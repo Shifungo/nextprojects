@@ -38,8 +38,6 @@ const Dayform: React.FC<DayformProps> = ({ date, month }) => {
   }),
     [addAtividade, closeAtividade];
 
-  console.log(formRef);
-
   const dateClicked = date;
 
   let showDayAtividadeForm = <div></div>;

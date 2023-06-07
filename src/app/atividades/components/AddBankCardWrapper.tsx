@@ -10,16 +10,18 @@ export default function AddBankCardWrapper() {
 
   return (
     <div>
-      <button onClick={setAddCardTrue}>AddCard</button>
+      <div className="bg-[#3E2424]  rounded-3xl m-2 ">
+        <button className="m-2" onClick={setAddCardTrue}>
+          +Bank
+        </button>
+      </div>
+
       <div>
         {addCard ? (
-          <AddCardForm addCard={addCard} setAddCardTrue={setAddCardTrue} />
+          <AddBankForm addCard={addCard} setAddCardTrue={setAddCardTrue} />
         ) : (
           <div></div>
         )}
-      </div>
-      <div>
-        <AddBankForm />
       </div>
     </div>
   );
