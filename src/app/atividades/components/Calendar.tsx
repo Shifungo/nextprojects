@@ -9,7 +9,6 @@ import {
 } from "date-fns";
 import Dayform from "./Dayform";
 import styles from "@/styles/calendar.module.css";
-import AddBankForm from "./addThings/AddBankForm";
 
 const Calendar = ({ month }: { month: string | null }): JSX.Element => {
   const today = new Date();
@@ -17,9 +16,9 @@ const Calendar = ({ month }: { month: string | null }): JSX.Element => {
   const currentMonthName = today.getMonth();
   month = month ? month : currentMonthName.toString();
   const firstDay = startOfMonth(parse(month, "MMMM", new Date()));
-  console.log("this is the first day", firstDay);
   const lastDay = endOfMonth(firstDay);
   const firstDayWeek = firstDay.getDay();
+  console.log("this is fist day", firstDay + "this is last day", lastDay);
   const daysInMonth = eachDayOfInterval({ start: firstDay, end: lastDay });
   const firstDayString = format(firstDay, "dd");
 
